@@ -5,7 +5,7 @@ import da.product_da
 import os
 from werkzeug.utils import secure_filename
 import stripe
-
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS so React app on different origin can call this API
