@@ -1,11 +1,10 @@
 import mysql.connector
 import json
-import stripe
+
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
 def get_connection():
     try:
         connection = mysql.connector.connect(
@@ -19,6 +18,18 @@ def get_connection():
     except mysql.connector.Error as err:
         print(f"❌ Database connection failed: {err}")
         return None
+
+
+def add_product(name, details, image_url, seller_id, price, category, stock, brand, color):
+    conn = get_connection()
+    cursor = conn.cursor()
+    query = """INSERT INTO products
+        (name, details, image_url, seller_id, price, category, stock, brand, color)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    cursor.execute(query, (name, details, image_url, seller_id, price, category, stock, brand, color))
+    conn.commit()
+    cursor.close()
+    conn.close()
 
 def get_all_products():
     conn = get_connection()
